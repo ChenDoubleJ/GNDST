@@ -1,13 +1,5 @@
 import json
 
-"""
-# 判断每个窗口的卫星可数 check
-# 删除窗口中卫星数量较少的窗口 train_del  test_del
-# 筛选窗口中的所有时刻卫星，删除不在两端位置出现的卫星  choose
-# 在中间位置插入两端存在的卫星 sa_insert
-# 进行扩充到最大的卫星数量，但是要保证记录卫星的星系和索引，应对后续构建图处理
-"""
-
 
 def check(train):
     for index in range(len(train)):
@@ -48,7 +40,7 @@ def train_del(train):
     del_list = []
     for index in range(len(train)):
         # tar = train[index]
-        last = train[index][-1]  # 存储在窗口的始终时刻都出现的卫星
+        last = train[index][-1]  
         beg = train[index][0]
         a = {}  # 存储BD
         b = {}  # 存储GAL
@@ -69,7 +61,7 @@ def train_del(train):
                     if j[6] == 2.0 and j[0] == i[0]:
                         c[i[0]] = 0
                         break
-        if (len(a) + len(b) + len(c)) > 18 or (len(a) + len(b) + len(c)) < 5:  # 删除卫星较少的窗口
+        if (len(a) + len(b) + len(c)) > 18 or (len(a) + len(b) + len(c)) < 5:  
             del_list.append(index)
             continue
     for ind in sorted(del_list, reverse=True):
@@ -110,7 +102,6 @@ def test_del(test):
     return test
 
 
-# 筛选窗口中的所有时刻卫星，删除不在两端位置出现的卫星
 def choose(train):
     for index in range(len(train)):
         # tar = train[index]
@@ -153,7 +144,6 @@ def choose(train):
     return train
 
 
-# 在中间位置插入两端存在的卫星
 def sa_insert(train):
     T = 8  # 窗口的大小
     for index in range(len(train)):  # 所有的窗口
@@ -202,7 +192,7 @@ def sa_insert(train):
                     train[index][saa].insert(sa, append)
     return train
 
-# 进行扩充到最大的卫星数量，但是要保证记录卫星的星系和索引，应对后续构建图处理
+
 def data_padding(train, maxnum):
     T = 8
     for index in range(len(train)):
@@ -227,9 +217,7 @@ with open('data/test.json', 'r') as file:
 # print(len(train[0]))
 # print(train[0])
 # print(len(train[0][0]))
-# 判断每个窗口的卫星可数 check
-#####################################################
-# 判断train和test的没个窗口中的卫星个数
+
 # sum = [0] * 29
 # for i in train:
 #     a, b, c = check(i)
@@ -252,29 +240,29 @@ with open('data/test.json', 'r') as file:
 #     print()
 # print(sum)
 ##################################################################
-# 删除窗口中卫星数量较少的窗口 train_del  test_del
+
 train = train_del(train)  # 返回删选后的训练和测试机，并且返回
 test = test_del(test)
 print(f'The length of train is {len(train)}')  # 删除一些窗口中卫星数量较少的窗口后的卫星的训练集合测试集的个数
 print(f'The length of train is {len(test)}')
 # print(len(train[0]))
 # ########################################################################
-# # 筛选窗口中的所有时刻卫星，删除不在两端位置出现的卫星  choose
+
 train = choose(train)
 test = choose(test)  # 获得训练集合测试集的每个窗口的其实位置和结束位置的卫星是一样的，中间可能缺少一些卫星
 # print(len(train[0]))
 # train = sa_insert(train)
 ###############################################################
 # print(len(train[0][0]))
-# [][][]第一个窗口,的第一个时刻的所有卫星,每个时刻的所有卫星
+
 # 在中间位置插入两端存在的卫星
 train = sa_insert(train)
 test = sa_insert(test)
-# # 进行扩充到最大的卫星数量，但是要保证记录卫星的星系和索引，应对后续构建图处理 18个 先尝试使用一个卫星进行填充到最大的数量的卫星的个数
+
 # # train = data_padding(train, 18)
 train = data_padding(train, 18)
 test = data_padding(test, 18)
-## 判断训练数据和测试数据每个窗口的卫星个数的最大和最小值
+
 tr1 = []
 te1 = []
 max_train = 0
