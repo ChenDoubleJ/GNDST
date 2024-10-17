@@ -2,8 +2,7 @@ import argparse
 
 
 def parse_signal_args():
-    parser = argparse.ArgumentParser(description='Improving NLOS/LOS Classification Accuracy in Urban Canyon Based on '
-                                                 'Channel-Independent Patch Transformer with Temporal Information')
+    parser = argparse.ArgumentParser(description='GNSS NLOS Detection')
 
     # random seed
     parser.add_argument('--random_seed', type=int, default=4, help='random seed')
